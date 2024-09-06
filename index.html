@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WuKong</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=KaiTi&display=swap" rel="stylesheet">
+  <style>
+body {
+  background: url('bg.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 1;
+
+  @media (max-width: 768px) {
+    background-size: auto 100%; /* 在手机上可能需要调整背景图片的高度充满屏幕 */
+  }
+}
+
+
+    video {
+      display: block;
+      margin: 3% auto 0; /* 距离顶部 5%，水平居中 */
+      width: 30%;
+      opacity: 1;
+    }
+    @media (max-width: 768px) {
+     video {
+       width: 80%;
+       margin: 2% auto 0;
+     }
+   }
+   @media (max-width: 768px) {
+     h1 {
+       font-size: 2em;
+     }
+    .audio-button {
+       font-size: 2em;
+     }
+   }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-top: 20px;
+      font-family: 'KaiTi', serif;
+    }
+
+  .audio-button-container {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+  .audio-button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'KaiTi', serif;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="myVideo">
+    <source src="v/v.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <h1 class="text-center mt-3" style="font-size: 5em;color: antiquewhite;">按下空格为猴头开光</h1>
+  <div class="audio-button-container">
+    <button id="audioButton1" class="audio-button" style="font-size: 5vh;opacity: 0.8;">原汁原味</button>
+    <button id="audioButton2" class="audio-button"style="font-size: 5vh;opacity: 0.8;">赛博木鱼</button>
+    <button id="audioButton3" class="audio-button"style="font-size: 5vh;opacity: 0.8;">大圣之音</button>
+  </div>
+</body>
+
+</html>
+
+
+
+<script>
+const video = document.getElementById('myVideo');
+const audioButton1 = document.getElementById('audioButton1');
+const audioButton2 = document.getElementById('audioButton2');
+const audioButton3 = document.getElementById('audioButton3');
+
+let currentAudio = null;
+
+const playAudioAndVideo = function(audioSrc) {
+  if (video.paused) {
+    video.play();
+    currentAudio = new Audio(audioSrc);
+    currentAudio.play();
+  } else {
+    video.pause();
+    video.currentTime = 0;
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    video.play();
+    currentAudio = new Audio(audioSrc);
+    currentAudio.play();
+  }
+};
+
+audioButton1.addEventListener('click', function() {
+  playAudioAndVideo('houtou.mp3');
+  this.blur(); // 移除按钮的焦点
+});
+
+audioButton2.addEventListener('click', function() {
+  playAudioAndVideo('muyu.mp3');
+  this.blur(); // 移除按钮的焦点
+});
+
+audioButton3.addEventListener('click', function() {
+  playAudioAndVideo('fl.mp3');
+  this.blur(); // 移除按钮的焦点
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.code === 'Space') {
+    event.stopPropagation();
+    if (video.paused) {
+      if (currentAudio) {
+        currentAudio.play();
+      }
+      video.play();
+    } else {
+      video.pause();
+      video.currentTime = 0;
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      video.play();
+    }
+  }
+});
+
+// 移除视频的默认控制条
+video.removeAttribute('controls');
+
+</script>
+
